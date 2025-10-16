@@ -7,7 +7,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'flaskcontacts'
 
-mysql = MySQL()
+mysql = MySQL(app)
 
 @app.route('/')
 def Index():
