@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -13,9 +13,18 @@ mysql = MySQL(app)
 def Index():
     return render_template('index.html')
 
-@app.route('/add_contact')
+@app.route('/add_contact', methods=['POST'])
 def add_contact():
-    return 'add contact'
+    if request.method == 'POST':
+        fullname = request.form['fullname']
+        phone = request.form['phone']
+        email = request.form['email']
+        cur = mysql.connection.cursor()
+        cur.execute('INSERT INTO contacts (fullname, phone, email) VALUES (%s, %s, %s)', 
+        (fullname, phone, email))
+        mysql.connection.commit()
+
+        return 'received'
 
 @app.route('/edit')
 def edit_contact():
